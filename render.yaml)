@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: trading-bot-definitivo
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: PORT
+        value: 8080
