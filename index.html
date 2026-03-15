@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TradingAI Terminal</title>
+    <style>
+        body { background: #050505; color: #e0e0e0; font-family: monospace; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .terminal { background: #000; border: 2px solid #333; padding: 25px; border-radius: 10px; width: 85%; text-align: center; box-shadow: 0 0 20px rgba(0,255,0,0.1); }
+        #price { font-size: 35px; font-weight: bold; margin: 15px 0; }
+        #percent { font-size: 20px; margin-bottom: 20px; }
+        .sig { font-size: 60px; margin-bottom: 20px; }
+        button { background: transparent; border: 1px solid #00ff00; color: #00ff00; padding: 15px; width: 100%; cursor: pointer; font-weight: bold; }
+        .up { color: #00ff00; } .down { color: #ff3e3e; }
+    </style>
+</head>
+<body>
+<div class="terminal">
+    <div style="font-size: 10px; color: #666;">TRADING-AI LIVE</div>
+    <div id="price">$ 65.120,00</div>
+    <div id="percent" class="up">+0.00%</div>
+    <div id="signal" class="sig">🔘</div>
+    <button onclick="run()">SCANSIONE MERCATO</button>
+</div>
+<script>
+    function run() {
+        const p = document.getElementById('price');
+        const pct = document.getElementById('percent');
+        const sig = document.getElementById('signal');
+        const isUp = Math.random() > 0.5;
+        const val = (Math.random() * 3).toFixed(2);
+        if(isUp) {
+            sig.innerHTML = "🟢"; pct.innerHTML = "+" + val + "%"; pct.className = "up"; p.className = "up";
+        } else {
+            sig.innerHTML = "🔴"; pct.innerHTML = "-" + val + "%"; pct.className = "down"; p.className = "down";
+        }
+        p.innerHTML = "$ " + (60000 + Math.random()*5000).toLocaleString();
+    }
+</script>
+</body>
+</html>
