@@ -6,7 +6,7 @@ from threading import Thread
 import feedparser
 
 # --- CONFIGURAZIONE NUOVO BOT ---
-TOKEN = "8787147048:AAGQHUwnj6hoq6ila61Yh4fQnv7k_AUDh54"
+TOKEN = "8787147048:AAHoCmF1pUVArSTo0BPawJui08rSwBgeDBs"
 client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 bot = telebot.TeleBot(TOKEN)
 
@@ -75,4 +75,5 @@ if __name__ == "__main__":
     t = Thread(target=run)
     t.start()
     print("Sistema TradingAI-it operativo sul nuovo bot.")
-    bot.infinity_polling()
+    bot.polling(none_stop=True, interval=0, timeout=20)
+
