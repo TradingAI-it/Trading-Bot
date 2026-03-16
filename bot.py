@@ -72,15 +72,16 @@ def handle_message(message):
 
 # --- AVVIO ---
 if __name__ == "__main__":
-    # Rimuove eventuali webhook o sessioni residue prima di partire
+    # 1. Pulizia webhook
     bot.remove_webhook()
-    print("Connessione pulita. Avvio del bot...")
     
-    # Avvia il server Flask in un thread separato
-    import threading
-    threading.Thread(target=lambda: app.run(host='0.0.0.0', port=10000)).start()
+    # 2. Avvio Flask in un THREAD separato (così non blocca il bot)
+    threading.Thread(target=lambda: app.run(host='0.0.0.0', port=10000), daemon=True).start()
     
-    # Avvia il polling del bot ignorando i conflitti iniziali
-    bot.infinity_polling(timeout=10, long_polling_timeout=5)
+    print("Sistema operativo. Sto ascoltando i messaggi...")
+    
+    # 3. Avvio Polling (QUESTO deve essere l'ultimo comando)
+    bot.infinity_polling(skip_pending=True)
+
 
 
