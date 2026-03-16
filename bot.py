@@ -1,9 +1,9 @@
 import os
+import threading
+import time
 import telebot
-from groq import Groq
 from flask import Flask
-from threading import Thread
-import feedparser
+from groq import Groq
 
 # --- CONFIGURAZIONE NUOVO BOT ---
 TOKEN = "8787147048:AAHoCmF1pUVArSTo0BPawJui08rSwBgeDBs"
