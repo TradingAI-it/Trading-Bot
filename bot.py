@@ -72,8 +72,15 @@ def handle_message(message):
 
 # --- AVVIO ---
 if __name__ == "__main__":
-    t = Thread(target=run)
-    t.start()
-    print("Sistema TradingAI-it operativo sul nuovo bot.")
-    bot.polling(none_stop=True, interval=0, timeout=20)
+    # Rimuove eventuali webhook o sessioni residue prima di partire
+    bot.remove_webhook()
+    print("Connessione pulita. Avvio del bot...")
+    
+    # Avvia il server Flask in un thread separato
+    import threading
+    threading.Thread(target=lambda: app.run(host='0.0.0.0', port=10000)).start()
+    
+    # Avvia il polling del bot ignorando i conflitti iniziali
+    bot.infinity_polling(timeout=10, long_polling_timeout=5)
+
 
