@@ -73,15 +73,30 @@ def handle_message(message):
 # --- AVVIO ---
 if __name__ == "__main__":
     # 1. Pulizia webhook
+    print("Pulizia connessioni precedenti...")
     bot.remove_webhook()
     
-    # 2. Avvio Flask in un THREAD separato (così non blocca il bot)
+    # 2. PAUSA STRATEGICA: Aspettiamo 10 secondi che la vecchia istanza su Render muoia
+    print("Attesa spegnimento vecchia istanza...")
+    time.sleep(10)
+    
+    # 3. Avvio Flask
     threading.Thread(target=lambda: app.run(host='0.0.0.0', port=10000), daemon=True).start()
     
     print("Sistema operativo. Sto ascoltando i messaggi...")
     
-    # 3. Avvio Polling (QUESTO deve essere l'ultimo comando)
-    bot.infinity_polling(skip_pending=True)
+    # 4. Avvio Polling con gestione robusta dell'errore 409
+    while True:
+        try:
+            bot.polling(none_stop=True, interval=0, timeout=20)
+        except Exception as e:
+            if "409" in str(e):
+                print("Conflitto rilevato, riprovo tra 5 secondi...")
+                time.sleep(5)
+            else:
+                print(f"Errore: {e}")
+                time.sleep(2)
+
 
 
 
